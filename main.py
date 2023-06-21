@@ -1,25 +1,45 @@
 import rawpy
 from pathlib import Path
-import PIL
+from PIL import Image
 
 
-export_location = ''
+export_location = 'C:/Users/steve/tmp/photo-rename-tester/processed-images'
 search_path = 'C:/Users/steve/tmp\photo-rename-tester/orig-images'
 #search_path = 'P:/'
 top_path = Path(search_path)
 
-fine_extensions = {'.JPG', '.jpg', '.jpeg', '.png', '.tif', '.bmp', '.TIF', '.PNG', '.gif'}
+fine_extensions = {'.JPG', '.jpg', '.jpeg', '.png', '.tif', '.bmp', '.TIF', '.PNG'}
 raw_extensions = {'.RW2', '.ORF', '.NEF', '.ARW'}
 
+i = 1
 for path in top_path.rglob('*.*'):
-    if path.suffix in fine_extensions:
-        print("We can just add the metadata and move it over")
-    elif path.suffix in raw_extensions:
+    file_extension = path.suffix
+    if file_extension in fine_extensions:
+        try:
+            im = Image.open(path)
+            exif = im.getexif()
+
+            if exif is None:
+                print("blah")
+                # No exif so we need to make a new one
+
+            print("copy file to the new location")
+            print("call the 'add to exif function")
+
+            if i % 1000 == 0:
+                print("Another thousand: " + str(i))
+
+        except:
+            print("threw an exception")
+        i += 1
+
+    elif file_extension in raw_extensions:
+        continue
         # rawimg = rawpy.imread("C:/Users/steve/tmp\photo-rename-tester/orig-images/2017/DSC_0001.NEF")
         # print(rawimg.sizes)
         # rawimg.close()
 
-        print("this has to be converted to JPG, add the metadata, and then moved over")
+        #print("this has to be converted to JPG, add the metadata, and then moved over")
 
 
 # basic works - need to export to JPG, rename the file, and then walk the tree.

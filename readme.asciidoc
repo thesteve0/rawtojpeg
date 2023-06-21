@@ -1,4 +1,12 @@
+## TODO
+We need a script to copy from the NAS to a staging area.
+One of it's main tasks is to only copy JPEGs if there is NOT a RAW image
+with the same name.
+It should only copy RAW files and images into the new directory for staging.
+It also needs to duplicate the directory structure
 
+
+## Azure Cog Services
 Image requirements for Azure cognitive services. And we are using API version 4 preview
 
 https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/overview-image-analysis?tabs=4-0#image-requirements
