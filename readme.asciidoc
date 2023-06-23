@@ -1,9 +1,24 @@
+# Purpose
+
+This script goes through a hierarchical directory structure containing RAW, JPEG, and TIFF images.
+It then
+
+. Runs through the directory and removes all thumbnail JPEGs
+. If neccessary, converts RAW to JPEG
+. Adds exif data to the JPEG or TIFF, including the original file location, name, copyright, and a blank XPKeywords tags
+. Makes sure the image is not bigger than 16K x 16K pixels
+. Saves the JPG or TIFF with a new file name of year_month_day_originalName.jpg into the staging area
+
+
+
 ## TODO
 We need a script to copy from the NAS to a staging area.
 One of it's main tasks is to only copy JPEGs if there is NOT a RAW image
 with the same name.
 It should only copy RAW files and images into the new directory for staging.
 It also needs to duplicate the directory structure
+
+
 
 
 ## Azure Cog Services

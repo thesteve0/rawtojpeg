@@ -1,15 +1,21 @@
 import rawpy
+
 from pathlib import Path
 from PIL import Image
+from ExifWorker import update_exif
 
-
-export_location = 'C:/Users/steve/tmp/photo-rename-tester/processed-images'
+export_location = 'C:/Users/steve/tmp/photo-rename-tester/processed-images/'
 search_path = 'C:/Users/steve/tmp\photo-rename-tester/orig-images'
 #search_path = 'P:/'
 top_path = Path(search_path)
 
-fine_extensions = {'.JPG', '.jpg', '.jpeg', '.png', '.tif', '.bmp', '.TIF', '.PNG'}
+fine_extensions = {'.JPG', '.jpg', '.jpeg', '.tif', '.TIF'}
+# We are not doing , '.png', '.bmp', '.PNG'}
 raw_extensions = {'.RW2', '.ORF', '.NEF', '.ARW'}
+
+
+
+
 
 i = 1
 for path in top_path.rglob('*.*'):
@@ -17,20 +23,21 @@ for path in top_path.rglob('*.*'):
     if file_extension in fine_extensions:
         try:
             im = Image.open(path)
-            exif = im.getexif()
+            im_exif = update_exif(im, path)
 
-            if exif is None:
-                print("blah")
-                # No exif so we need to make a new one
-
-            print("copy file to the new location")
-            print("call the 'add to exif function")
+            height = im.size[1]   #height
+            width = im.size[0]  #width
+            if height > 16000 or width > 16000:
+                print("we have an image bigger than 16k in one dimensions")
+            # The saved file name needs to be unique since they are all getting dumped in 1 directory
+            #            im.save(export_location + filename, exif=im_exif)
 
             if i % 1000 == 0:
                 print("Another thousand: " + str(i))
 
-        except:
-            print("threw an exception")
+        except Exception as e:
+            print("threw an exception: " + str(e))
+        im.close()
         i += 1
 
     elif file_extension in raw_extensions:
