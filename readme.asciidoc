@@ -1,13 +1,25 @@
 # Purpose
 
-This script goes through a hierarchical directory structure containing RAW, JPEG, and TIFF images.
-It then
+These scripts go through a hierarchical directory structure to prepare RAW and JPEG images for AI work.
+It expects a directory containing images and other sub-directories containing images.
 
-. Runs through the directory and removes all thumbnail JPEGs
-. If neccessary, converts RAW to JPEG
-. Adds exif data to the JPEG or TIFF, including the original file location, name, copyright, and a blank XPKeywords tags
+
+First run `just_camera_files.py` to clear the directory of files we obviously don't want to run AI on.
+
+Deletes:
+1. Files that aren't JPEG or RAW
+2. Thumbnails generated either in camera or in software
+3. Files from phone cameras
+
+*Done - files now in D:\pictures_for_AI*
+
+Now run `main.py` which will
+
+. If there is a JPEG and RAW with the same name - remove the RAW file
+. If necessary, converts RAW to JPEG
+. Adds exif data to the JPEG, including the original file location, name, copyright, and a blank XPKeywords tags
 . Makes sure the image is not bigger than 16K x 16K pixels
-. Saves the JPG or TIFF with a new file name of year_month_day_originalName.jpg into the staging area
+. Saves the JPG with a new file name of year_month_day_originalName.jpg into the staging area. The staging area contains only files and no directories
 
 
 
@@ -18,6 +30,17 @@ with the same name.
 It should only copy RAW files and images into the new directory for staging.
 It also needs to duplicate the directory structure
 
+No Photos from phone camers - the only images we should really care about for now are those with exif for make =
+'EASTMAN KODAK COMPANY'
+'FUJIFILM'
+'NIKON'
+'Panasonic'
+'Canon'
+'NIKON CORPORATION'
+'Konica Minolta Photo Imaging, Inc.'
+'OLYMPUS CORPORATION    '
+'Sony'
+'SONY'
 
 
 

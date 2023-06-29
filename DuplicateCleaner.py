@@ -1,4 +1,4 @@
-
+import os
 
 # This is the shit show we are dealing with
 #
@@ -24,13 +24,15 @@ def look_for_duplicates(directory):
 
         # We have a raw file, now we need to see if there are jpegs with the same name in the directory
         #if file_extension in raw_extensions:
-        if file_extension in raw_extensions:
-            for possible_jpeg in path.parent.rglob('*.*'):
-                    if possible_jpeg.suffix in fine_extensions:
-                        # Grab the first 5 character from each file name and compare them
-                        # if they are the same then delete the "same" not RAW file
-                        if path.name[0:5] == possible_jpeg.name[0:5]:
-                            print("Raw: " + str(path) + " : would move : " +str(possible_jpeg))
-
+        if file_extension in fine_extensions:
+            for possible_raw in path.parent.rglob('*.*'):
+                    if possible_raw.suffix in raw_extensions:
+                        # compare everything before the extension
+                        # if they are the same then delete the "same" RAW file
+                        if path.name[0:-4] == possible_raw.name[0:-4]:
+                            # check to see if the names are an exact match - if so delete the raw
+                            # if not then delete the JPG
+                            os.remove(possible_raw)
+                            continue
 
 # Need to decide how I am going to clear this up. Do I delete all teh jpgs or do I just move them somewhere else?
