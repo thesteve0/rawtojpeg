@@ -22,15 +22,7 @@ Now run `main.py` which will
 . Saves the JPG with a new file name of year_month_day_originalName.jpg into the staging area. The staging area contains only files and no directories
 
 
-
-## TODO
-We need a script to copy from the NAS to a staging area.
-One of it's main tasks is to only copy JPEGs if there is NOT a RAW image
-with the same name.
-It should only copy RAW files and images into the new directory for staging.
-It also needs to duplicate the directory structure
-
-No Photos from phone camers - the only images we should really care about for now are those with exif for make =
+No Photos from phone cameras - the only images we should really care about for now are those with exif for make =
 'EASTMAN KODAK COMPANY'
 'FUJIFILM'
 'NIKON'

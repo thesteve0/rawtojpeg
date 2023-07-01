@@ -1,5 +1,6 @@
+import PIL.Image
 from PIL import Image
-
+import exiftool
 
 # PILLOW_TAGS = [
 #     315,     # Artist Name
@@ -18,7 +19,7 @@ from PIL import Image
 
 
 # This needs a flag to specify whether there is a JPG and RAW with the same name
-def update_exif(self, image, path, has_duplicate):
+def update_exif(image, path):
     im_exif = image.getexif()
     if im_exif is None:
         print("blah")
@@ -32,6 +33,30 @@ def update_exif(self, image, path, has_duplicate):
 
     return im_exif
 
+def raw_exif_to_jpeg(raw_file_string, jpg):
+    files = [str(raw_file_string)]
+    pillow_exif = jpg.getexif()
+    pillow_exif[315] = "Steven Pousty"
+    pillow_exif[33432] = "Copyright 2023 Steven Pousty. All Rights Reserved."
+
+    pillow_exif[40094] = ""
+    try:
+        with exiftool.ExifToolHelper() as et:
+            raw_exif = et.get_metadata(raw_file_string)
+            # I need to copy over just the exif I want to a new Pillow exif object and then
+            # attach that to teh JPG
+            pillow_exif[41728] = raw_exif[0]['SourceFile']
+
+            pillow_exif[256] = raw_exif[0]['EXIF:ImageHeight']  # height
+            pillow_exif[257] = raw_exif[0]['EXIF:ImageWidth'] # width
+
+            pillow_exif[271] = raw_exif[0]['EXIF:Make']
+            pillow_exif[272] = raw_exif[0]['EXIF:Model']
+            pillow_exif[306] = raw_exif[0]['EXIF:CreateDate']
+    except Exception as e:
+        print("threw an exception: " + str(e) + " on file: " + str(raw_file_string))
+
+    return pillow_exif
 
 def get_exif(image):
     im_exif = image.getexif()

@@ -4,3 +4,4 @@ wheel~=0.37.1
 numpy~=1.24.3
 setuptools~=60.2.0
 rawpy~=0.18.1
+PyExifTool~=0.5.5
